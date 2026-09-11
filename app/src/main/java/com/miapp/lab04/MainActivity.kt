@@ -45,11 +45,16 @@ class MainActivity : ComponentActivity() {
 
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.mutableStateOf
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     val itemsList = remember { List(10) { "Elemento #${it + 1}" } }
+    var selectedItem by remember { mutableStateOf<String?>(null) }
 
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -70,7 +75,9 @@ fun MainScreen(modifier: Modifier = Modifier) {
             }
             items(itemsList) { item ->
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { selectedItem = item },
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Text(
@@ -80,6 +87,19 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     )
                 }
             }
+        }
+
+        selectedItem?.let { item ->
+            AlertDialog(
+                onDismissRequest = { selectedItem = null },
+                title = { Text(text = "Detalle del elemento") },
+                text = { Text(text = "Has seleccionado: $item") },
+                confirmButton = {
+                    TextButton(onClick = { selectedItem = null }) {
+                        Text(text = "Aceptar")
+                    }
+                }
+            )
         }
     }
 }
