@@ -26,6 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.miapp.lab04.ui.theme.MiAppLab04Theme
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,36 +45,31 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    var count by remember { mutableIntStateOf(0) }
+    val itemsList = remember { List(10) { "Elemento #${it + 1}" } }
 
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = "¡Bienvenido a MiAppLab04!",
-                style = MaterialTheme.typography.headlineMedium
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Proyecto configurado con Jetpack Compose en Antigravity IDE",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                text = "Clics: $count",
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { count++ }) {
-                Text(text = "Incrementar contador")
+            item {
+                Text(
+                    text = "Lista de Pruebas",
+                    style = MaterialTheme.typography.headlineMedium
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            items(itemsList) { item ->
+                Text(
+                    text = item,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
     }
