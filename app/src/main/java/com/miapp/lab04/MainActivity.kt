@@ -43,6 +43,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.layout.fillMaxWidth
+
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     val itemsList = remember { List(10) { "Elemento #${it + 1}" } }
@@ -65,11 +69,16 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(8.dp))
             }
             items(itemsList) { item ->
-                Text(
-                    text = item,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Text(
+                        text = item,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
             }
         }
     }
